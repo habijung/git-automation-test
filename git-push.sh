@@ -1,5 +1,5 @@
 #!/usr/bin/bash
-# Only use remote : origin
+# Use only remote : origin
 
 REMOTE_REPO=$(git remote)
 WORKING_BRANCH=$(git branch --show-current)
