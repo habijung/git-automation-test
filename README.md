@@ -22,12 +22,24 @@ If you don't write commit message, script will receive commit message by shell.
 ```
 -> git commit ...
 -> Enter commit message :
-...
+```
+
+After writing commit message, check if it is correct.
+
+```
+-> Your commit message : ${commit message}
+-> [ Yes = 1 | No = other ] :
+```
+
+Then, git commit and git push are done automatically.
+
+```
 -> git commit complete
+-> git push complete
 ```
 
 
 <br>
 
 ---
-**Updated :** 2021-09-29 00:50
+**Updated :** 2021-10-10 22:00
