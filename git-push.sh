@@ -1,11 +1,13 @@
 #!/usr/bin/bash
 # Use only remote : origin
 
+COMMIT_FLAG=0
 REMOTE_REPO=$(git remote)
 WORKING_BRANCH=$(git branch --show-current)
 
 echo -e "\n-> git pull ..."
-echo "-> remote : ${REMOTE_REPO} | branch : ${WORKING_BRANCH}"
+echo "-> remote : ${REMOTE_REPO}"
+echo "-> branch : ${WORKING_BRANCH}"
 
 git pull ${REMOTE_REPO} ${WORKING_BRANCH}
 
@@ -15,7 +17,7 @@ echo "-> git add ..."
 git add --all
 
 echo "-> git add complete"
-echo "-> git status"
+echo "-> git status ..."
 
 git status
 
@@ -27,16 +29,25 @@ else
 	COMMIT_MESSAGE=${1}
 fi
 
-git commit -m "${COMMIT_MESSAGE}"
+echo "-> Your commit message : ${COMMIT_MESSAGE}"
+read -p "-> [ Yes = 1 | No = other ] : " COMMIT_FLAG
 
-echo "-> git commit complete"
-echo "-> git push ..."
+if [ ${COMMIT_FLAG} -eq 1 ]; then
 
-git push ${REMOTE_REPO} HEAD:${WORKING_BRANCH}
+	git commit -m "${COMMIT_MESSAGE}"
 
-if [ $? = 0 ]; then
-	echo -e "-> git push complete\n"
+	echo "-> git commit complete"
+	echo "-> git push ..."
+
+	git push ${REMOTE_REPO} HEAD:${WORKING_BRANCH}
+
+	if [ $? = 0 ]; then
+		echo -e "-> git push complete\n"
+	else
+		git reset --soft HEAD^
+		echo "-> git push faild. Please check git error message."
+	fi
+
 else
-	git reset --soft HEAD^
-	echo "-> git push faild. Please check git error message."
+	echo "-> git push cancel. Please try again."
 fi
